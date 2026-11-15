@@ -1,0 +1,64 @@
+{
+ "kit": "ananta-mod-kit",
+ "version": "1.0.0",
+ "gameBuild": "4480568",
+ "components": [
+  {
+   "id": "loader",
+   "name": "Il2CppNativeKit Loader",
+   "description": "winhttp.dll + dinput8.dll proxy pair that boots the mod loader. Install first.",
+   "target": "game root",
+   "files": [
+    "winhttp.dll",
+    "dinput8.dll"
+   ]
+  },
+  {
+   "id": "LocalRadio",
+   "name": "LocalRadio",
+   "description": "Multi-station custom radio. Audio files are user content - add your MP3s to Audio/ after install.",
+   "target": "Il2CppNativeKit/Mods/LocalRadio",
+   "files": [
+    "Mod.dll",
+    "LocalRadio.lua",
+    "LocalRadio.ini",
+    "LocalRadioTracks.ini",
+    "INSTALL.md"
+   ]
+  },
+  {
+   "id": "GachaTime",
+   "name": "GachaTime",
+   "description": "Client half of the gacha unlock. Requires the server patch component.",
+   "target": "Il2CppNativeKit/Mods/GachaTime",
+   "files": [
+    "Mod.dll",
+    "GachaTime.lua",
+    "GachaTime.ini"
+   ]
+  },
+  {
+   "id": "ScopeCdnRedirect",
+   "name": "ScopeCdnRedirect",
+   "description": "Redirects CDN media requests to a mirror.",
+   "target": "Il2CppNativeKit/Mods/ScopeCdnRedirect",
+   "files": [
+    "Mod.dll",
+    "ScopeCdnRedirect.ini",
+    "README_RU.md",
+    "LICENSE-MinHook.txt",
+    "manifest.json"
+   ]
+  },
+  {
+   "id": "serverPatch",
+   "name": "Server Patch (GachaTime)",
+   "description": "Server-side hotpatch for bin/patch/<N>/. Installs to the next free patch number.",
+   "target": "bin/patch/<N>",
+   "files": [
+    "manifest.txt",
+    "ServerHotPatchAssembly.dll"
+   ]
+  }
+ ]
+}
