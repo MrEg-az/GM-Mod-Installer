@@ -36,7 +36,7 @@
   {
    "id": "LocalRadio",
    "name": "LocalRadio",
-   "description": "Multi-station custom radio with the shared station list baked in. Audio files are user content - add your MP3s to Audio/ after install.",
+   "description": "Multi-station custom radio. The GM panel Radio tab injects your stations into this mod after install - the kit ships clean templates.",
    "target": "Il2CppNativeKit/Mods/LocalRadio",
    "files": [
     "Mod.dll",
@@ -46,7 +46,13 @@
     "INSTALL.md"
    ],
    "version": "0.7",
-   "kind": "client"
+   "kind": "client",
+   "managedFiles": [
+    "LocalRadio.lua",
+    "LocalRadio.ini",
+    "LocalRadioTracks.ini",
+    "station.json"
+   ]
   },
   {
    "id": "ScopeCdnRedirect",
