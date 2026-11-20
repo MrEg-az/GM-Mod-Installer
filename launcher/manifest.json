@@ -1,0 +1,27 @@
+{
+ "launcher": "AnantaLauncher",
+ "version": "0.2.0",
+ "files": [
+  "webui/ANANTA.woff",
+  "webui/Ananta_close.png",
+  "webui/Ananta_hide.png",
+  "webui/Ananta_settings.png",
+  "webui/Background_img.jpg",
+  "webui/Logo-Black.png",
+  "webui/Logo-White.png",
+  "webui/Song1.mp3",
+  "webui/a_news1.png",
+  "webui/a_news2.png",
+  "webui/ananta_download.png",
+  "webui/ananta_information.png",
+  "webui/icon-studio.svg",
+  "webui/index.html",
+  "webui/social/Ananta_social_discord.png",
+  "webui/social/Ananta_social_facebook.png",
+  "webui/social/Ananta_social_instagram.png",
+  "webui/social/Ananta_social_reddit.png",
+  "webui/social/Ananta_social_tt.png",
+  "webui/social/Ananta_social_x.png",
+  "webui/social/Ananta_social_yt.png"
+ ]
+}

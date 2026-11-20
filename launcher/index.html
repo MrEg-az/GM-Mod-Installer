@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AnantaPSLauncher</title>
+    <style>
+        @font-face { font-family: 'Ananta'; src: url('ANANTA.woff') format('woff'); font-weight: normal; font-style: normal; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Ananta', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #05070f; color: #fff; overflow: hidden; user-select: none; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        #launcher-container { width: 100%; height: 100%; border-radius: 12px; overflow: hidden; position: relative; display: flex; flex-direction: column; z-index: 1; }
+        #launcher-background { position: absolute; top:0; left:0; width:100%; height:100%; background: url('Background_img.jpg') no-repeat center center; background-size: cover; z-index:0; }
+        #launcher-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background-color: rgba(10,15,30,0.7); z-index:1; }
+        #top-bar, #main-content, #footer { position: relative; z-index: 2; }
+        #top-bar { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; height: 70px; background: linear-gradient(to bottom, rgba(20,25,50,0.9), rgba(10,15,30,0.7)); border-bottom: 1px solid rgba(100,120,255,0.2); user-select: none; cursor: default; }
+        #game-info { display: flex; align-items: center; }
+        #game-logo { height: 35px; width: auto; }
+        #social-container { display: flex; align-items: center; }
+        .social-buttons { display: flex; }
+        .social-btn { width: 36px; height: 36px; border-radius: 50%; margin: 0 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #e0e5ff; box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: all 0.2s ease; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); text-decoration: none; }
+        .social-btn img { width: 20px; height: 20px; object-fit: contain; pointer-events: none; }
+        .social-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.4); background: rgba(255,255,255,0.25); }
+        #window-controls { display: flex; }
+        .control-btn { width: 36px; height: 36px; margin-left: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 6px; background-color: rgba(100,120,255,0.1); transition: all 0.2s ease; border: 1px solid transparent; }
+        .control-btn img { width: 20px; height: 20px; object-fit: contain; pointer-events: none; }
+        .control-btn:hover { background-color: rgba(100,120,255,0.3); }
+        #close-btn:hover { background-color: rgba(231,76,60,0.7); }
+        #main-content { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; overflow: hidden; }
+        #news-section { background-color: rgba(0,0,0,0.5); border-radius: 10px; padding: 15px; width: 470px; border: 1px solid rgba(100,120,255,0.2); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        #news-header { font-size: 16px; margin-bottom: 10px; color: #a0b0ff; display: flex; align-items: center; justify-content: space-between; letter-spacing: 1px; }
+        #news-refresh { background: none; border: 1px solid rgba(100,120,255,0.3); color: #a0b0ff; border-radius: 5px; padding: 3px 10px; cursor: pointer; font-family: inherit; font-size: 11px; }
+        #news-refresh:hover { color: #fff; border-color: #5d6cff; }
+        #news-carousel { position: relative; height: 92px; overflow: hidden; }
+        .news-item { position: absolute; top:0; left:0; width:100%; opacity:0; transition: opacity 0.8s ease-in-out; display: flex; align-items: center; }
+        .news-item.active { opacity: 1; }
+        .news-item a { display: flex; align-items: center; text-decoration: none; color: inherit; width: 100%; height: 100%; cursor: pointer; }
+        .news-image { height: 70px; width: 110px; background-color: #1a2a5a; margin-right: 15px; border-radius: 6px; overflow: hidden; flex-shrink: 0; }
+        .news-image img { width: 100%; height: 100%; object-fit: cover; }
+        .news-header { font-size: 14px; color: #e0e5ff; font-weight: 500; }
+        .news-cat { font-size: 10px; color: #7080d0; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+        #bottom-section { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
+        #play-button-container { display: flex; flex-direction: column; align-items: flex-end; }
+        #play-button { color: white; border: none; font-size: 32px; border-radius: 10px; cursor: pointer; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.4); transition: all 0.3s ease; font-family: 'Ananta', sans-serif; letter-spacing: 1px; background: rgba(93,108,255,0.25); border: 1px solid rgba(255,255,255,0.3); width: 320px; height: 80px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; z-index: 3; }
+        #play-button::before { content: ''; position: absolute; top:0; left:-100%; width:100%; height:100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s ease-in-out; pointer-events: none; opacity:0; }
+        #play-button:hover::before { left:100%; opacity:1; }
+        #play-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); background: rgba(93,108,255,0.35); }
+        #play-button:active { transform: translateY(1px); box-shadow: 0 3px 10px rgba(0,0,0,0.4); }
+        #version-info { color: #7080d0; font-size: 14px; margin-top: 10px; text-align: right; }
+        #carousel-indicators { display: flex; justify-content: center; margin-top: 10px; }
+        .indicator { width: 8px; height: 8px; border-radius: 50%; background-color: rgba(255,255,255,0.3); margin: 0 4px; cursor: pointer; transition: all 0.3s ease; }
+        .indicator.active { background-color: #5d6cff; transform: scale(1.2); }
+        /* Settings Panel */
+        #settings-panel { position: absolute; top: 80px; right: 25px; width: 420px; height: 520px; background-color: rgba(15,20,40,0.95); border-radius: 10px; padding: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.5); border: 1px solid rgba(100,120,255,0.3); display: none; z-index: 10; }
+        #settings-tabs { display: flex; border-bottom: 1px solid rgba(100,120,255,0.3); margin-bottom: 15px; }
+        .settings-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; color: #d0d5ff; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .settings-tab img { width: 16px; height: 16px; margin-right: 8px; pointer-events: none; }
+        .settings-tab:hover { background-color: rgba(100,120,255,0.2); }
+        .settings-tab.active { background-color: rgba(93,108,255,0.3); color: #ffffff; }
+        .settings-content { display: none; overflow-y: auto; height: calc(100% - 60px); }
+        .settings-content.active { display: block; }
+        .setting-option { margin: 15px 0; }
+        .setting-option label { display: block; margin-bottom: 5px; color: #d0d5ff; font-size: 14px; }
+        .setting-option .hint { font-size: 11px; color: #7080d0; margin-top: 5px; }
+        .slider { width: 100%; height: 5px; background: rgba(100,120,255,0.2); border-radius: 5px; outline: none; accent-color: #5d6cff; }
+        .checkbox { width: 18px; height: 18px; accent-color: #5d6cff; vertical-align: middle; margin-right: 8px; }
+        .settings-button { background: rgba(93,108,255,0.25); color: #ffffff; border: 1px solid rgba(255,255,255,0.3); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s ease; }
+        .settings-button:hover { background: rgba(93,108,255,0.35); transform: translateY(-2px); }
+        .text-input { width: 100%; padding: 8px 10px; background: rgba(0,0,0,0.5); border: 1px solid rgba(100,120,255,0.3); color: #ffffff; border-radius: 4px; font-size: 13px; outline: none; }
+        .text-input:focus { border-color: #5d6cff; }
+        #install-directory { color: #7080d0; font-size: 12px; margin: 8px 0; word-break: break-all; }
+        .hyperlink { color: #5d6cff; text-decoration: none; font-size: 14px; margin: 5px 0; display: inline-block; cursor: pointer; }
+        .hyperlink:hover { text-decoration: underline; }
+        #footer { position: absolute; bottom: 10px; left:0; right:0; text-align: center; color: #7080d0; font-size:12px; z-index:2; }
+        /* Toast */
+        #toast { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(15,20,40,0.95); border: 1px solid rgba(100,120,255,0.4); color: #e0e5ff; padding: 12px 24px; border-radius: 8px; font-size: 13px; z-index: 500; opacity: 0; pointer-events: none; transition: all 0.3s ease; max-width: 600px; text-align: center; }
+        #toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+        #toast.error { border-color: rgba(231,76,60,0.6); }
+        /* Loading Screen */
+        #loading-screen { position: fixed; top:0; left:0; width:100vw !important; height:100vh !important; max-width:none !important; max-height:none !important; background-color:#000; display:flex; justify-content:center; align-items:center; z-index:1000; opacity:1; transition: opacity 0.5s ease-out; }
+        #loading-screen.hidden { opacity:0; pointer-events:none; }
+        #loading-logo-container { position:relative; width:300px; height:75px; }
+        #loading-logo-black { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; }
+        #loading-logo-white { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; clip-path:inset(0 100% 0 0); transition: clip-path 3s ease-out; }
+        #loading-logo-white.revealed { clip-path:inset(0 0 0 0); }
+        #studio-logo { position:absolute; bottom:20px; right:20px; width:100px; height:auto; object-fit:contain; }
+        #loading-footer { position:absolute; bottom:10px; left:0; right:0; text-align:center; color:#303030; font-size:12px; transition:color 0.5s ease-out; z-index:1001; }
+        #loading-footer.transition { color:#7080d0; }
+        /* edge strips for the frameless window */
+        .edge { position: fixed; z-index: 2000; }
+        .edge.N { top:0; left:0; right:0; height:5px; cursor: n-resize; }
+        .edge.S { bottom:0; left:0; right:0; height:5px; cursor: s-resize; }
+        .edge.W { top:0; bottom:0; left:0; width:5px; cursor: w-resize; }
+        .edge.E { top:0; bottom:0; right:0; width:5px; cursor: e-resize; }
+        .edge.c { width:12px; height:12px; }
+        .edge.NW { top:0; left:0; cursor: nw-resize; }
+        .edge.NE { top:0; right:0; cursor: ne-resize; }
+        .edge.SW { bottom:0; left:0; cursor: sw-resize; }
+        .edge.SE { bottom:0; right:0; cursor: se-resize; }
+        html.browser .edge, html.browser .drag-zone { display: none; }
+        .drag-zone { position: absolute; top:0; left:0; right:0; height: 70px; z-index: 5; cursor: default; }
+    </style>
+</head>
+<body>
+    <div class="edge N" data-e="N"></div><div class="edge S" data-e="S"></div>
+    <div class="edge W" data-e="W"></div><div class="edge E" data-e="E"></div>
+    <div class="edge c NW" data-e="NW"></div><div class="edge c NE" data-e="NE"></div>
+    <div class="edge c SW" data-e="SW"></div><div class="edge c SE" data-e="SE"></div>
+
+    <div id="launcher-container">
+        <div id="launcher-background"></div>
+        <div id="launcher-overlay"></div>
+        <div class="drag-zone"></div>
+        <div id="top-bar">
+            <div id="game-info"><img src="Logo-White.png" alt="Ananta" id="game-logo"></div>
+            <div id="social-container">
+                <div class="social-buttons">
+                    <a class="social-btn" data-url="https://discord.gg/ananta" title="Discord"><img src="social/Ananta_social_discord.png" alt="Discord"></a>
+                    <a class="social-btn" data-url="https://x.com/ANANTA_TheGame" title="X"><img src="social/Ananta_social_x.png" alt="X"></a>
+                    <a class="social-btn" data-url="https://www.youtube.com/@ANANTA-TheGame" title="YouTube"><img src="social/Ananta_social_yt.png" alt="YouTube"></a>
+                    <a class="social-btn" data-url="https://www.reddit.com/r/ANANTAtheGame/" title="Reddit"><img src="social/Ananta_social_reddit.png" alt="Reddit"></a>
+                    <a class="social-btn" data-url="https://www.facebook.com/ANANTATheGame" title="Facebook"><img src="social/Ananta_social_facebook.png" alt="Facebook"></a>
+                    <a class="social-btn" data-url="https://www.instagram.com/ananta_thegame/" title="Instagram"><img src="social/Ananta_social_instagram.png" alt="Instagram"></a>
+                    <a class="social-btn" data-url="https://www.tiktok.com/@ananta_thegame" title="TikTok"><img src="social/Ananta_social_tt.png" alt="TikTok"></a>
+                </div>
+                <div id="window-controls">
+                    <div class="control-btn" id="settings-btn" title="Settings"><img src="Ananta_settings.png" alt="Settings"></div>
+                    <div class="control-btn" id="minimize-btn" title="Minimize"><img src="Ananta_hide.png" alt="Minimize"></div>
+                    <div class="control-btn close" id="close-btn" title="Close"><img src="Ananta_close.png" alt="Close"></div>
+                </div>
+            </div>
+        </div>
+        <div id="main-content">
+            <div id="news-section">
+                <div id="news-header"><span>RECENT NEWS</span><button id="news-refresh">refresh</button></div>
+                <div id="news-carousel"></div>
+                <div id="carousel-indicators"></div>
+            </div>
+            <div id="bottom-section">
+                <div style="width: 470px;"></div>
+                <div id="play-button-container">
+                    <button id="play-button">PLAY</button>
+                    <div id="version-info">Version 0.2.0</div>
+                </div>
+            </div>
+        </div>
+        <div id="footer">© 2026 Clothed Sunshine. All rights reserved.</div>
+
+        <div id="settings-panel">
+            <div id="settings-tabs">
+                <div class="settings-tab active" data-tab="preferences"><img src="Ananta_settings.png" alt=""> Preferences</div>
+                <div class="settings-tab" data-tab="download"><img src="ananta_download.png" alt=""> Download</div>
+                <div class="settings-tab" data-tab="about"><img src="ananta_information.png" alt=""> About</div>
+            </div>
+            <div id="preferences-content" class="settings-content active">
+                <div class="setting-option">
+                    <label>Background Music Volume</label>
+                    <input type="range" id="music-volume" class="slider" min="0" max="100" value="50">
+                </div>
+                <div class="setting-option">
+                    <label>Clicking Close Button</label>
+                    <label><input type="radio" name="close-action" value="exit" class="checkbox"> Exit the Launcher</label>
+                    <label><input type="radio" name="close-action" value="minimize" class="checkbox"> Minimize the Launcher</label>
+                </div>
+                <div class="setting-option">
+                    <label>Auto-launch on Startup</label>
+                    <label><input type="checkbox" id="auto-launch" class="checkbox"> Start the launcher when Windows starts</label>
+                    <div class="hint">Registers the launcher in the Windows Run key (current user).</div>
+                </div>
+            </div>
+            <div id="download-content" class="settings-content">
+                <div class="setting-option">
+                    <label>Client Download Page (Google Drive)</label>
+                    <input class="text-input" id="download-url-input" placeholder="https://drive.google.com/...">
+                    <div class="hint">Opens in your real browser. Change the link here when a new client build is published.</div>
+                    <div style="display:flex; gap:10px; margin-top:10px;">
+                        <button class="settings-button" id="open-download-btn">Open Download Page</button>
+                        <button class="settings-button secondary" id="save-download-btn">Save Link</button>
+                    </div>
+                </div>
+                <div class="setting-option">
+                    <label>Client Folder</label>
+                    <div id="install-directory">Not detected</div>
+                    <div style="display:flex; gap:10px; margin-top:8px;">
+                        <button class="settings-button" id="detect-client-btn">Detect Automatically</button>
+                        <button class="settings-button secondary" id="open-game-dir-btn">Open Folder</button>
+                    </div>
+                    <input class="text-input" id="game-root-input" placeholder="Paste the folder containing Ananta.exe" style="margin-top:10px">
+                    <button class="settings-button" id="save-game-root" style="margin-top:8px">Save Client Folder</button>
+                </div>
+            </div>
+            <div id="about-content" class="settings-content">
+                <div class="setting-option">
+                    <div style="font-size:14px; color:#d0d5ff;">AnantaPSLauncher <span id="about-version" style="color:#7080d0"></span></div>
+                    <div style="font-size:12px; color:#7080d0; margin-top:8px;">Unofficial community launcher for the ANANTA private server. Not affiliated with NetEase or Naked Rain.</div>
+                    <span class="hyperlink" onclick="openUrl('https://www.anantagame.com/')">anantagame.com (opens in your browser)</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer">© 2026 Clothed Sunshine. All rights reserved.</div>
+        <div id="toast"></div>
+    </div>
+
+    <div id="loading-screen">
+        <div id="loading-logo-container">
+            <img id="loading-logo-black" src="Logo-Black.png" alt="">
+            <img id="loading-logo-white" src="Logo-White.png" alt="">
+        </div>
+        <img id="studio-logo" src="icon-studio.svg" alt="Studio Logo">
+        <div id="loading-footer">© 2026 Clothed Sunshine. All rights reserved.</div>
+    </div>
+
+    <audio id="background-music" loop preload="auto">
+        <source src="Song1.mp3" type="audio/mpeg">
+    </audio>
+
+<script>
+const $ = id => document.getElementById(id);
+const inWebview = !!(window.chrome && window.chrome.webview);
+function win(msg) { if (inWebview) window.chrome.webview.postMessage(msg); }
+async function api(url, body) {
+    const r = await fetch(url, body ? {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)} : {});
+    const j = await r.json();
+    if (j.error) throw new Error(j.error);
+    return j;
+}
+function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+function openUrl(url) { return api('/api/open', {url: url}).catch(e => toast(e.message, true)); }
+
+/* ---------- toast (no system popups) ---------- */
+let toastTimer = null;
+function toast(msg, isErr) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.className = isErr ? 'visible error' : 'visible';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { t.className = ''; }, 3200);
+}
+
+/* ---------- loading screen ---------- */
+window.addEventListener('load', () => {
+    setTimeout(() => { $('loading-logo-white').classList.add('revealed'); }, 300);
+    setTimeout(() => { $('loading-footer').classList.add('transition'); }, 2600);
+    setTimeout(() => { $('loading-screen').classList.add('hidden'); }, 3400);
+    setTimeout(() => { $('loading-screen').remove(); }, 4200);
+});
+
+/* ---------- window chrome ---------- */
+$('minimize-btn').addEventListener('click', () => win('win:min'));
+$('close-btn').addEventListener('click', () => {
+    if (state.closeAction === 'minimize') { win('win:min'); return; }
+    win('win:close');
+});
+document.querySelectorAll('.edge').forEach(el => el.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    win('win:resize:' + el.dataset.e);
+}));
+document.querySelector('.drag-zone').addEventListener('mousedown', e => {
+    if (e.button !== 0 || e.target.closest('button,input,a,select')) return;
+    win('win:drag');
+});
+document.querySelector('.drag-zone').addEventListener('dblclick', e => {
+    if (e.target.closest('button,input,a,select')) return;
+    win('win:max');
+});
+if (!inWebview) document.documentElement.classList.add('browser');
+
+/* ---------- background music + volume (real setting) ---------- */
+const bgMusic = $('background-music');
+$('music-volume').addEventListener('input', e => {
+    bgMusic.volume = (parseInt(e.target.value) || 0) / 100;
+    localStorage.setItem('musicVolume', e.target.value);
+    bgMusic.play().catch(() => {});
+});
+try {
+    const saved = localStorage.getItem('musicVolume');
+    if (saved !== null) $('music-volume').value = saved;
+    bgMusic.volume = (parseInt($('music-volume').value) || 50) / 100;
+} catch (e) {}
+
+/* ---------- settings ---------- */
+let state = { gameRoot: '', closeAction: 'exit', downloadUrl: '' };
+async function loadSettings() {
+    try {
+        state = await api('/api/settings');
+        $('install-directory').textContent = state.gameRoot || 'Not detected';
+        $('game-root-input').value = state.gameRoot || '';
+        $('download-url-input').value = state.downloadUrl || '';
+        document.querySelectorAll('input[name=close-action]').forEach(r => { r.checked = (r.value === state.closeAction); });
+        const v = (await api('/api/ping')).version || '';
+        $('about-version').textContent = 'v' + v;
+        $('version-info').textContent = 'Version ' + v;
+    } catch (e) { toast('settings failed to load: ' + e.message, true); }
+}
+async function saveSettings(patch) {
+    try {
+        state = await api('/api/settings', patch);
+        $('install-directory').textContent = state.gameRoot || 'Not detected';
+        $('game-root-input').value = state.gameRoot || '';
+        $('download-url-input').value = state.downloadUrl || '';
+        document.querySelectorAll('input[name=close-action]').forEach(r => { r.checked = (r.value === state.closeAction); });
+        toast('settings saved');
+    } catch (e) { toast('save failed: ' + e.message, true); }
+}
+document.querySelectorAll('.settings-tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.settings-tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.settings-content').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab + '-content')?.classList.add('active');
+}));
+document.querySelectorAll('input[name=close-action]').forEach(r => r.addEventListener('change', () => {
+    if (r.checked) saveSettings({closeAction: r.value});
+}));
+$('save-game-root').addEventListener('click', () => saveSettings({gameRoot: $('game-root-input').value.trim()}));
+$('save-download-btn').addEventListener('click', () => saveSettings({downloadUrl: $('download-url-input').value.trim()}));
+$('open-download-btn').addEventListener('click', () => {
+    const u = state.downloadUrl || $('download-url-input').value.trim();
+    if (!u) { toast('no download link set - paste it first', true); return; }
+    openUrl(u);
+});
+$('open-game-dir-btn').addEventListener('click', async () => {
+    try { await api('/api/open-folder', {}); } catch (e) { toast(e.message, true); }
+});
+$('detect-client-btn').addEventListener('click', async () => {
+    toast('searching for the client on your fixed drives...');
+    try {
+        const r = await api('/api/detect-client');
+        if (r.found) {
+            $('install-directory').textContent = r.path;
+            $('game-root-input').value = r.path;
+            saveSettings({gameRoot: r.path});
+        } else {
+            toast('client not found on fixed drives - paste the folder path below', true);
+        }
+    } catch (e) { toast('detect failed: ' + e.message, true); }
+});
+
+/* ---------- auto-launch on startup (real: HKCU Run key) ---------- */
+$('auto-launch').addEventListener('change', async () => {
+    try {
+        const r = await api('/api/autolaunch', {on: $('auto-launch').checked});
+        toast(r.on ? 'launcher will start with Windows' : 'launcher removed from Windows startup');
+    } catch (e) { toast('failed: ' + e.message, true); }
+});
+
+/* ---------- settings panel toggle ---------- */
+$('settings-btn').addEventListener('click', () => {
+    const p = $('settings-panel');
+    p.style.display = p.style.display === 'block' ? 'none' : 'block';
+});
+document.addEventListener('click', e => {
+    const p = $('settings-panel');
+    if (p && !p.contains(e.target) && !$('settings-btn').contains(e.target)) p.style.display = 'none';
+});
+
+/* ---------- news carousel (real posts from anantagame.com) ---------- */
+let newsItems = [];
+let currentNewsIndex = 0;
+const fallbackImages = ['a_news1.png', 'a_news2.png'];
+async function loadNews() {
+    try {
+        const r = await api('/api/news');
+        newsItems = r.items || [];
+        renderNews();
+    } catch (e) { /* keep the section quiet on first paint */ }
+}
+function renderNews() {
+    const car = $('news-carousel'); const ind = $('carousel-indicators');
+    car.innerHTML = ''; ind.innerHTML = '';
+    if (!newsItems.length) {
+        car.innerHTML = '<div class="news-item active"><div class="news-text"><div class="news-header">No news loaded</div></div></div>';
+        return;
+    }
+    newsItems.forEach((n, i) => {
+        const img = fallbackImages[i % fallbackImages.length];
+        const d = document.createElement('div');
+        d.className = 'news-item' + (i === 0 ? ' active' : '');
+        d.innerHTML = `<a href="${esc(n.url)}" target="_blank" rel="noopener">` +
+            `<div class="news-image"><img src="${img}" alt=""></div>` +
+            `<div><div class="news-header">${esc(n.title)}</div><div class="news-cat">${esc((n.category || '') + ' · ' + (n.date || ''))}</div></div></a>`;
+        d.addEventListener('click', e => { e.preventDefault(); openUrl(n.url); });
+        car.appendChild(d);
+        const dot = document.createElement('span');
+        dot.className = 'indicator' + (i === 0 ? ' active' : '');
+        dot.dataset.index = i;
+        dot.addEventListener('click', () => goToNews(i));
+        ind.appendChild(dot);
+    });
+    goToNews(0);
+}
+function goToNews(i) {
+    if (!newsItems.length) return;
+    const items = document.querySelectorAll('#news-carousel .news-item');
+    const dots = document.querySelectorAll('#carousel-indicators .indicator');
+    items.forEach(x => x.classList.remove('active'));
+    dots.forEach(x => x.classList.remove('active'));
+    if (items[i]) items[i].classList.add('active');
+    if (dots[i]) dots[i].classList.add('active');
+    currentNewsIndex = i;
+}
+$('news-refresh').addEventListener('click', async () => {
+    $('news-refresh').textContent = 'loading...';
+    try {
+        const r = await api('/api/news?force=' + Date.now());
+        newsItems = r.items || [];
+        renderNews();
+    } catch (e) {}
+    $('news-refresh').textContent = 'refresh';
+});
+let rotateTimer = null;
+function startRotation() {
+    clearInterval(rotateTimer);
+    rotateTimer = setInterval(() => {
+        if (!newsItems.length) return;
+        goToNews((currentNewsIndex + 1) % newsItems.length);
+    }, 5000);
+}
+function openUrl2(url) { return openUrl(url); }
+
+/* ---------- socials open in the real browser ---------- */
+document.querySelectorAll('.social-btn').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    openUrl(a.dataset.url);
+}));
+
+/* ---------- PLAY (game start lands in the next update) ---------- */
+$('play-button').addEventListener('click', () => {
+    toast('game start arrives in the next launcher update - for now run Start-Private.cmd in your client folder');
+});
+
+/* ---------- boot ---------- */
+loadSettings();
+loadNews().then(startRotation);
+</script>
+</body>
+</html>
