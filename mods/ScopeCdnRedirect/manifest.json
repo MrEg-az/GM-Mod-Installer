@@ -1,0 +1,23 @@
+{
+  "name": "ScopeCdnRedirect",
+  "version": "1.1.0",
+  "sourceDirectory": "F:\\GamesLibrary\\Ananta_Dev\\4480568-4480568-4480568_1.1.0\\bin\\_server_run\\scope-cdn-redirect",
+  "gameAssemblySha256": "461a998f9b6206bd4cd2ef9008b673135e8f24cab74732cadee47394dcfb416f",
+  "testsPassed": true,
+  "inGameVerified": false,
+  "sourceHost": "l50-media-cn-hangzhou-test.oss-cn-hangzhou.aliyuncs.com",
+  "baseUrl": "https://s3.twcstorage.ru/48654ade-be6da43d-250e-487d-bc51-2934b9358586/ananta/scope/",
+  "whitelistBackup": "F:\\GamesLibrary\\Ananta_Dev\\4480568-4480568-4480568_1.1.0\\bin\\_server_run\\scope-cdn-redirect\\backups\\20261108-184040\\NetworkWhitelist.ini",
+  "files": {
+    "Mod.dll": "c0c1b0c8108c0f53c90f2f19213006970badd7ab0423c1723897ae544d3f1291",
+    "ScopeCdnRedirect.ini": "f4a5624e8809c52ceb3a42cf28f49d8f853182591769cc4a4c3b213a24640f8b",
+    "README_RU.md": "ec1c51470feab5c978d439a6fac5b3ce6ac9e5c0b12a98f3283cd875b3b44b09",
+    "LICENSE-MinHook.txt": "4f21f857550d7be854da6ea5f2da4e6775ca4e3fbb535e4f3d961c47d0bf3335"
+  },
+  "realClientExportsAndResolverVerified": true,
+  "previousVersionBackup": "F:\\GamesLibrary\\Ananta_Dev\\4480568-4480568-4480568_1.1.0\\bin\\_server_run\\scope-cdn-redirect\\backups\\before-1.1.0-20261108-190512",
+  "binding": "UnityPlayer SetUrl icall via build-verified internal resolver and exported mono_string_* shims",
+  "localImageAspect": true,
+  "stripOssImageProcess": true,
+  "rendering": "mesh-time dynamic OSS resize parsing; center crop UV; fit quad; restores all temporary widget state; no texture copies"
+}

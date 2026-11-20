@@ -1,0 +1,9 @@
+{
+  "build": "ANANTA server 1.1.0 / 4480568 / .NET 10",
+  "serverAssemblies": {
+    "UXGameServer.dll": "595239419b1e54303f418d2589369ef3b609af7d641587edc4fcdbb92024ebb9",
+    "ConfigData.dll": "ea9ea283502022e9f4de78449ad19a9b38ca4f1b48945375b779578cc6efeaf3",
+    "Auto.Server.dll": "376c675341b617bde06f787e65a99dbc73c6c975a47dd13afb92bd14ae488fde",
+    "UXServerCommon.dll": "5f288b15ff02626d48114e0103fc6ee7a18d0e7bf0be2d4592efc33ba9f354ec"
+  }
+}

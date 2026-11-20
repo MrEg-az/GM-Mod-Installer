@@ -1,0 +1,109 @@
+{
+ "kit": "ananta-mod-kit",
+ "version": "1.1.0",
+ "gameBuild": "4480568",
+ "components": [
+  {
+   "id": "loader",
+   "name": "Il2CppNativeKit Loader",
+   "description": "winhttp.dll + dinput8.dll proxy pair that boots the mod loader (compat layer runs folder mods). Install first.",
+   "target": "game root",
+   "files": [
+    "winhttp.dll",
+    "dinput8.dll"
+   ],
+   "version": "2.0.0",
+   "kind": "client"
+  },
+  {
+   "id": "GachaTime",
+   "name": "Gacha Unlock",
+   "description": "Gacha unlock - client mod + server hotpatch installed together. Client goes to Il2CppNativeKit/Mods, server patch goes to bin/patch/<next free number>.",
+   "target": "client + server",
+   "files": [
+    "Mod.dll",
+    "GachaTime.lua",
+    "GachaTime.ini"
+   ],
+   "serverFiles": [
+    "manifest.txt",
+    "ServerHotPatchAssembly.dll"
+   ],
+   "version": "1.0.0-path-fix",
+   "kind": "client+server",
+   "serverDir": "server/patch/GachaTime"
+  },
+  {
+   "id": "LocalRadio",
+   "name": "LocalRadio",
+   "description": "Multi-station custom radio with the shared station list baked in. Audio files are user content - add your MP3s to Audio/ after install.",
+   "target": "Il2CppNativeKit/Mods/LocalRadio",
+   "files": [
+    "Mod.dll",
+    "LocalRadio.lua",
+    "LocalRadio.ini",
+    "LocalRadioTracks.ini",
+    "INSTALL.md"
+   ],
+   "version": "0.7",
+   "kind": "client"
+  },
+  {
+   "id": "ScopeCdnRedirect",
+   "name": "ScopeCdnRedirect",
+   "description": "Redirects CDN media requests to a mirror.",
+   "target": "Il2CppNativeKit/Mods/ScopeCdnRedirect",
+   "files": [
+    "Mod.dll",
+    "ScopeCdnRedirect.ini",
+    "README_RU.md",
+    "LICENSE-MinHook.txt",
+    "manifest.json"
+   ],
+   "version": "1.0.0",
+   "kind": "client"
+  },
+  {
+   "id": "WeaponUnlock",
+   "name": "Weapon Unlock",
+   "description": "Unlocks all WeaponConfig weapons client-side (visibility + equip).",
+   "target": "Il2CppNativeKit/Mods/WeaponUnlock",
+   "files": [
+    "Mod.dll",
+    "WeaponUnlock.lua",
+    "WeaponUnlock.ini"
+   ],
+   "version": "1.0.0",
+   "kind": "client"
+  },
+  {
+   "id": "CharacterUnlock",
+   "name": "Character Unlock (client)",
+   "description": "Grants every FightSpiritConfig character via the real AddSpirit RPC and unhides owned-but-hidden ones. Auto mode needs the server patch half.",
+   "target": "Il2CppNativeKit/Mods/CharacterUnlock",
+   "files": [
+    "Mod.dll",
+    "CharacterUnlock.lua",
+    "CharacterUnlock.ini"
+   ],
+   "version": "1.1.0",
+   "kind": "client"
+  },
+  {
+   "id": "CharacterUnlock-server",
+   "name": "Character Unlock (server patch)",
+   "description": "Server hotpatch for CharacterUnlock: accepts out-of-config AddSpirit grants and confirms CharacterUnlock.Version. DISABLED on the owner server: AddSpirit returns invalid params with it loaded - under investigation. Do not install until fixed.",
+   "target": "server patch dir",
+   "partOf": "CharacterUnlock",
+   "serverDir": "server/patch/CharacterUnlock",
+   "serverFiles": [
+    "manifest.txt",
+    "ServerHotPatchAssembly.dll"
+   ],
+   "version": "1.0.0",
+   "kind": "server",
+   "compatibility": "server/patch/CharacterUnlock/Compatibility.json"
+  }
+ ],
+ "repo": ""
+}
